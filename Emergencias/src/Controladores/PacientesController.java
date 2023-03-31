@@ -24,10 +24,11 @@ public class PacientesController implements ActionListener{
         
         //A poner a la escucha los botones
         this.VistaPrincipal.btnIngresar.addActionListener(this);
-        this.VistaPrincipal.btnIngresar.addActionListener(this);    
+        this.VistaPrincipal.btnAtender.addActionListener(this);
+        
         
         //Levantar la vista principal
-        this.VistaPrincipal.setExtendedState(frmVistaPrincipal.MAXIMIZED_BOTH);
+        this.VistaPrincipal.setExtendedState(frmVistaPrincipal.MAXIMIZED_VERT);
         this.VistaPrincipal.setVisible(true);
         
     }
@@ -36,12 +37,32 @@ public class PacientesController implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()== this.VistaPrincipal.btnIngresar)
-        {
+        if(e.getSource()== this.VistaPrincipal.btnIngresar){
+            if(this.VistaPrincipal.jtTablaPacientes.getColumnCount()==0)
+            {
+                this.VistaPrincipal.jtTablaPacientes.setModel(this.ModeloPacientes.nomColumna());
+            }
+            
+            this.ModeloPacientes.des();
+
             this.ModeloPacientes.IngresarPaciente(this.VistaPrincipal.txtApellidos.getText(), this.VistaPrincipal.txtNombre.getText(),
-                    this.VistaPrincipal.txtTelefono.getText(), Integer.parseInt(this.VistaPrincipal.txtPrioridad.getText()));
+                    this.VistaPrincipal.txtTelefono.getText(), Integer.parseInt(this.VistaPrincipal.txtPrioridad.getText()));           
+           
             this.VistaPrincipal.jtTablaPacientes.setModel(this.ModeloPacientes.ListarPacientes());
+            this.VistaPrincipal.txtApellidos.setText("");
+            this.VistaPrincipal.txtNombre.setText("");
+            this.VistaPrincipal.txtTelefono.setText("");
+            this.VistaPrincipal.txtPrioridad.setText("");
+        }  
+               
+        if(e.getSource()== this.VistaPrincipal.btnAtender)
+        {
+            this.ModeloPacientes.Descolar();
+            this.ModeloPacientes.des();
+            this.VistaPrincipal.jtTablaPacientes.setModel(this.ModeloPacientes.ListarPacientes());
+            
         }
+       }    
     }
-    
-}
+
+
